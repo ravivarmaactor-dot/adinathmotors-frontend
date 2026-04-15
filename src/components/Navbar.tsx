@@ -37,7 +37,11 @@ export default function Navbar() {
               <img 
                 src="/logo.png" 
                 alt="" 
-                onError={() => setLogoError(true)}
+                onError={() => {
+                  // Temporarily disabled fallback
+                  // setLogoError(true)
+                  console.error("Logo failed to load");
+                }}
                 className="h-10 md:h-12 w-auto transition-all object-contain"
                 referrerPolicy="no-referrer"
               />

@@ -36,7 +36,9 @@ const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1558981403-c5f9899a28b
 
 export default function About() {
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = FALLBACK_IMAGE;
+    // Temporarily disabled fallback to verify original images
+    // e.currentTarget.src = FALLBACK_IMAGE;
+    console.error("Image failed to load:", e.currentTarget.src);
   };
 
   return (
@@ -115,7 +117,7 @@ export default function About() {
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <img 
-                  src="/interioradinath.png" 
+                  src="/interior-adinath.png" 
                   alt="Showroom Interior" 
                   className="w-full h-auto"
                   referrerPolicy="no-referrer"

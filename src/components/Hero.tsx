@@ -11,12 +11,14 @@ export default function Hero() {
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
           transition={{ duration: 10, ease: "easeOut" }}
-          src="https://images.unsplash.com/photo-1558981285-6f0c94958bb6?auto=format&fit=crop&q=80&w=1920"
+          src="/hero.jpeg"
           alt="Premium Motorcycle"
           className="w-full h-full object-cover"
           referrerPolicy="no-referrer"
           onError={(e) => {
-            e.currentTarget.src = 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=1920';
+            // Temporarily disabled fallback
+            // e.currentTarget.src = 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=1920';
+            console.error("Hero image failed to load:", e.currentTarget.src);
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />

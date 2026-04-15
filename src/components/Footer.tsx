@@ -17,7 +17,11 @@ export default function Footer() {
                 <img 
                   src="/logo.png" 
                   alt="" 
-                  onError={() => setLogoError(true)}
+                  onError={() => {
+                    // Temporarily disabled fallback
+                    // setLogoError(true)
+                    console.error("Footer logo failed to load");
+                  }}
                   className="h-12 md:h-14 w-auto object-contain"
                   referrerPolicy="no-referrer"
                 />

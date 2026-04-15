@@ -80,12 +80,14 @@ export default function AboutSection({ isShortened = false }: AboutSectionProps)
           <div className="absolute -inset-4 bg-red-600/10 rounded-3xl -rotate-2"></div>
           <div className="relative rounded-2xl overflow-hidden shadow-2xl z-10">
             <img
-              src="/adinathextrioer.png"
+              src="/adinath-exterior.png"
               alt="Adinath Motors – Multi Brand Two Wheelers and Electric Scooter Showroom"
               className="w-full h-auto"
               referrerPolicy="no-referrer"
               onError={(e) => {
-                e.currentTarget.src = 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=800';
+                // Temporarily disabled fallback
+                // e.currentTarget.src = 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=800';
+                console.error("Image failed to load:", e.currentTarget.src);
               }}
             />
             {/* Watermark Overlay Badge */}

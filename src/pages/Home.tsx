@@ -10,13 +10,13 @@ import { useState } from 'react';
 const categories = [
   { name: 'Commuter Bikes', image: '/commuter.png' },
   { name: 'Sports Motorcycles', image: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=600' },
-  { name: 'Cruiser Bikes', image: '/Re1.png' },
-  { name: 'Family Scooters', image: '/Activablue.png' },
-  { name: 'Electric Scooters', image: '/Atherelec.png' },
+  { name: 'Cruiser Bikes', image: '/re1.png' },
+  { name: 'Family Scooters', image: '/activa-blue.png' },
+  { name: 'Electric Scooters', image: '/ather-electric.png' },
   { name: 'Adventure Tourers', image: 'https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&q=80&w=600' },
   { name: 'Executive Segment', image: '/do.png' },
   { name: 'Performance Scooters', image: '/buman.jpg' },
-  { name: 'Retro Classics', image: '/Bulletr.png' },
+  { name: 'Retro Classics', image: '/bullet.png' },
   { name: 'Off-Road/Dirt Bikes', image: '/hero.jpeg' },
   { name: 'Premium Motorcycles', image: 'https://images.unsplash.com/photo-1558981359-219d6364c9c8?auto=format&fit=crop&q=80&w=600' },
   { name: 'High-Speed Electric', image: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&q=80&w=600' },
@@ -53,7 +53,7 @@ const services = [
   },
   {
     title: 'Electric Scooter Sales',
-    image: '/electricrange.png',
+    image: '/electric-range.png',
     description: 'Go green with our exclusive range of high-performance electric scooters from Ather and Ola.',
   },
   {
@@ -70,14 +70,16 @@ export default function Home() {
   const [showSalesModal, setShowSalesModal] = useState(false);
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = FALLBACK_IMAGE;
+    // Temporarily disabled fallback to verify original images
+    // e.currentTarget.src = FALLBACK_IMAGE;
+    console.error("Image failed to load:", e.currentTarget.src);
   };
 
   const handleCategoryClick = (categoryName: string) => {
     if (categoryName === 'Commuter Bikes') {
       setSelectedImage('/about-us-main.png');
     } else if (categoryName === 'Cruiser Bikes') {
-      setSelectedImage('/RE.png');
+      setSelectedImage('/re.png');
     }
   };
 
