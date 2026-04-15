@@ -63,13 +63,19 @@ const services = [
   },
 ];
 
+const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=800';
+
 export default function Home() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showSalesModal, setShowSalesModal] = useState(false);
 
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = FALLBACK_IMAGE;
+  };
+
   const handleCategoryClick = (categoryName: string) => {
     if (categoryName === 'Commuter Bikes') {
-      setSelectedImage('/About us main .png');
+      setSelectedImage('/about-us-main.png');
     } else if (categoryName === 'Cruiser Bikes') {
       setSelectedImage('/RE.png');
     }
@@ -179,6 +185,7 @@ export default function Home() {
                 alt="All Models"
                 className="max-w-full max-h-full object-contain rounded-xl shadow-2xl"
                 referrerPolicy="no-referrer"
+                onError={handleImageError}
               />
             </motion.div>
           </motion.div>
@@ -214,6 +221,7 @@ export default function Home() {
                   alt={category.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   referrerPolicy="no-referrer"
+                  onError={handleImageError}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
@@ -248,6 +256,7 @@ export default function Home() {
                     alt={service.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     referrerPolicy="no-referrer"
+                    onError={handleImageError}
                   />
                 </div>
                 <div className="p-8 space-y-4">

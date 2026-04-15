@@ -20,6 +20,17 @@ service cloud.firestore {
     // Helper Functions
     // ===============================================================
     
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAuthorized() {
+      return isAuthenticated() && 
+             (request.auth.token.email == "motorsadinath@gmail.com" || 
+              request.auth.token.email == "branchmanager_adinathcrm@gmail.com") &&
+             request.auth.token.email_verified == true;
+    }
+
     function isValidEmail(email) {
       return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
     }
@@ -28,18 +39,18 @@ service cloud.firestore {
       return data.keys().hasAll(['name', 'mobile', 'email', 'message', 'createdAt']) &&
              data.keys().hasOnly(['name', 'mobile', 'email', 'message', 'createdAt']) &&
              data.name is string && data.name.size() >= 2 && data.name.size() <= 100 &&
-             data.mobile is string && data.mobile.size() >= 10 && data.mobile.size() <= 15 &&
+             data.mobile is string && data.mobile.size() >= 5 && data.mobile.size() <= 20 &&
              data.email is string && isValidEmail(data.email) &&
-             data.message is string && data.message.size() >= 10 && data.message.size() <= 2000 &&
-             data.createdAt is timestamp;
+             data.message is string && data.message.size() >= 1 && data.message.size() <= 5000 &&
+             (data.createdAt == request.time || data.createdAt is timestamp);
     }
 
     match /enquiries/{enquiryId} {
-      // Allow anyone to create an enquiry if it's valid
+      // Allow anyone to create an enquiry if it's valid (public submission)
       allow create: if isValidEnquiry(request.resource.data);
       
-      // No one can read, update, or delete enquiries from the client
-      allow read, update, delete: if false;
+      // Only Master Admin and Manager can read, update, or delete enquiries
+      allow read, update, delete: if isAuthorized();
     }
   }
 }

@@ -1,8 +1,59 @@
 import React, { useState } from 'react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { db, auth } from '../lib/firebase';
 import { Send, CheckCircle2, Loader2 } from 'lucide-react';
 import { cn } from '../lib/utils';
+
+enum OperationType {
+  CREATE = 'create',
+  UPDATE = 'update',
+  DELETE = 'delete',
+  LIST = 'list',
+  GET = 'get',
+  WRITE = 'write',
+}
+
+interface FirestoreErrorInfo {
+  error: string;
+  operationType: OperationType;
+  path: string | null;
+  authInfo: {
+    userId: string | undefined;
+    email: string | null | undefined;
+    emailVerified: boolean | undefined;
+    isAnonymous: boolean | undefined;
+    tenantId: string | null | undefined;
+    providerInfo: {
+      providerId: string;
+      displayName: string | null;
+      email: string | null;
+      photoUrl: string | null;
+    }[];
+  }
+}
+
+function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
+  const errInfo: FirestoreErrorInfo = {
+    error: error instanceof Error ? error.message : String(error),
+    authInfo: {
+      userId: auth.currentUser?.uid,
+      email: auth.currentUser?.email,
+      emailVerified: auth.currentUser?.emailVerified,
+      isAnonymous: auth.currentUser?.isAnonymous,
+      tenantId: auth.currentUser?.tenantId,
+      providerInfo: auth.currentUser?.providerData.map(provider => ({
+        providerId: provider.providerId,
+        displayName: provider.displayName,
+        email: provider.email,
+        photoUrl: provider.photoURL
+      })) || []
+    },
+    operationType,
+    path
+  };
+  console.error('Firestore Error: ', JSON.stringify(errInfo));
+  throw new Error(JSON.stringify(errInfo));
+}
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -24,6 +75,7 @@ export default function ContactForm() {
     setStatus('submitting');
     setErrorMessage('');
 
+    const path = 'enquiries';
     try {
       // Basic validation
       if (!formData.name || !formData.mobile || !formData.email || !formData.message) {
@@ -37,10 +89,29 @@ export default function ContactForm() {
       }
 
       // Firestore submission
-      await addDoc(collection(db, 'enquiries'), {
-        ...formData,
-        createdAt: serverTimestamp(),
-      });
+      try {
+        await addDoc(collection(db, path), {
+          ...formData,
+          createdAt: serverTimestamp(),
+        });
+
+        // Send Email Notification via Backend
+        try {
+          await fetch('/api/send-enquiry', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+          });
+        } catch (emailError) {
+          console.error('Failed to send email notification:', emailError);
+          // We don't throw here because the enquiry was already saved to Firestore
+        }
+      } catch (error: any) {
+        if (error.message?.includes('permission')) {
+          handleFirestoreError(error, OperationType.CREATE, path);
+        }
+        throw error;
+      }
 
       setStatus('success');
       setFormData({ name: '', mobile: '', email: '', message: '' });
@@ -50,7 +121,13 @@ export default function ContactForm() {
     } catch (error: any) {
       console.error('Error submitting form:', error);
       setStatus('error');
-      setErrorMessage(error.message || 'Something went wrong. Please try again.');
+      
+      try {
+        const errObj = JSON.parse(error.message);
+        setErrorMessage('Submission failed due to security rules. Please ensure all fields are valid.');
+      } catch (e) {
+        setErrorMessage(error.message || 'Something went wrong. Please try again.');
+      }
     }
   };
 

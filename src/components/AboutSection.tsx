@@ -84,6 +84,9 @@ export default function AboutSection({ isShortened = false }: AboutSectionProps)
               alt="Adinath Motors – Multi Brand Two Wheelers and Electric Scooter Showroom"
               className="w-full h-auto"
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                e.currentTarget.src = 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=800';
+              }}
             />
             {/* Watermark Overlay Badge */}
             <div className="absolute bottom-4 right-4 bg-red-600 text-white p-3 rounded-full shadow-lg flex items-center justify-center border-2 border-white animate-pulse">

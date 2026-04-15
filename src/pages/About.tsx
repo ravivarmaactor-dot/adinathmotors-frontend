@@ -32,7 +32,13 @@ const features = [
   },
 ];
 
+const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=800';
+
 export default function About() {
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = FALLBACK_IMAGE;
+  };
+
   return (
     <div className="pt-32 pb-24 space-y-24 overflow-hidden">
       {/* Hero Section */}
@@ -43,6 +49,7 @@ export default function About() {
             alt="Background" 
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
+            onError={handleImageError}
           />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
@@ -112,6 +119,7 @@ export default function About() {
                   alt="Showroom Interior" 
                   className="w-full h-auto"
                   referrerPolicy="no-referrer"
+                  onError={handleImageError}
                 />
                 {/* Watermark Overlay Badge */}
                 <div className="absolute bottom-6 right-6 bg-red-600 text-white p-4 rounded-full shadow-xl flex items-center justify-center border-2 border-white">
