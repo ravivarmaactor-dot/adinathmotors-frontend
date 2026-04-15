@@ -15,11 +15,10 @@ export default function Footer() {
             <Link to="/" className="flex items-center">
               {!logoError ? (
                 <img 
-                  src="/logo.png" 
-                  alt="" 
+                  src="https://lh3.googleusercontent.com/d/1ecRxOfWQxYdMA0m-6WE31uPvWuYGZ843" 
+                  alt="Adinath Motors Logo" 
                   onError={() => {
-                    // Temporarily disabled fallback
-                    // setLogoError(true)
+                    setLogoError(true);
                     console.error("Footer logo failed to load");
                   }}
                   className="h-12 md:h-14 w-auto object-contain"

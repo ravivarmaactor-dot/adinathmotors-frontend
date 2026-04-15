@@ -8,18 +8,18 @@ import FinanceSection from '../components/FinanceSection';
 import { useState } from 'react';
 
 const categories = [
-  { name: 'Commuter Bikes', image: '/commuter.png' },
+  { name: 'Commuter Bikes', image: 'https://lh3.googleusercontent.com/d/1-2PlXzqgCKe3ZVPJ9XQqx1Xc7oRmCbIR' },
   { name: 'Sports Motorcycles', image: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=600' },
-  { name: 'Cruiser Bikes', image: '/re1.png' },
-  { name: 'Family Scooters', image: '/activablue.png' },
-  { name: 'Electric Scooters', image: '/atherelec.png' },
+  { name: 'Cruiser Bikes', image: 'https://lh3.googleusercontent.com/d/1yKys_6G4uz3adry7W6V5iuflg9q7Zw4K' },
+  { name: 'Family Scooters', image: 'https://lh3.googleusercontent.com/d/1Qkj2B0Dztx8fwX6VfHwTs8Ec5ZIi-zKx' },
+  { name: 'Electric Scooters', image: 'https://lh3.googleusercontent.com/d/1U7eveeirWAqLmmYF8pAM87scSftErs5n' },
   { name: 'Adventure Tourers', image: 'https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&q=80&w=600' },
-  { name: 'Executive Segment', image: '/do.png' },
-  { name: 'Performance Scooters', image: '/buman.jpg' },
-  { name: 'Retro Classics', image: '/bulletr.png' },
-  { name: 'Off-Road/Dirt Bikes', image: '/hero.jpeg' },
+  { name: 'Executive Segment', image: 'https://lh3.googleusercontent.com/d/1fFYCMXaGK7rJn4SWkKLcDdfbNaIQxWrY' },
+  { name: 'Performance Scooters', image: 'https://lh3.googleusercontent.com/d/1GEm5puC7Fzo-0urWSqivVLpigsjwy32Q' },
+  { name: 'Retro Classics', image: 'https://lh3.googleusercontent.com/d/1eXTNBGx1adzphxYI25oAHyQBKjUgzB_b' },
+  { name: 'Off-Road/Dirt Bikes', image: 'https://lh3.googleusercontent.com/d/1skQmKae2p4ktZ1JJ8pxsebsLWckgGwU_' },
   { name: 'Premium Motorcycles', image: 'https://images.unsplash.com/photo-1558981359-219d6364c9c8?auto=format&fit=crop&q=80&w=600' },
-  { name: 'High-Speed Electric', image: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&q=80&w=600' },
+  { name: 'High-Speed Electric', image: 'https://lh3.googleusercontent.com/d/1wLbrM2OaR25G_PPoJWEse-V6jyE4Hzev' },
 ];
 
 const features = [
@@ -48,12 +48,12 @@ const features = [
 const services = [
   {
     title: 'New Vehicle Sales',
-    image: '/salesman.png',
+    image: 'https://lh3.googleusercontent.com/d/1vZTbndWdFQVTraj4CAn8aZScrXtV1xaG',
     description: 'Explore the latest motorcycles and scooters with cutting-edge technology and safety features.',
   },
   {
     title: 'Electric Scooter Sales',
-    image: '/electricrange.png',
+    image: 'https://lh3.googleusercontent.com/d/1UwWbHHhzQMnFxkIZgUoIssrbQCGmMz5k',
     description: 'Go green with our exclusive range of high-performance electric scooters from Ather and Ola.',
   },
   {
@@ -77,9 +77,9 @@ export default function Home() {
 
   const handleCategoryClick = (categoryName: string) => {
     if (categoryName === 'Commuter Bikes') {
-      setSelectedImage('/about-us-main.png');
+      setSelectedImage('https://lh3.googleusercontent.com/d/1-iMRYt-YlCXGtXP_Z6tPMcL8PQOWxpQ6');
     } else if (categoryName === 'Cruiser Bikes') {
-      setSelectedImage('/re.png');
+      setSelectedImage('https://lh3.googleusercontent.com/d/1k2CTrMcSmh7oz1YTlgI-Y6jVyxgrJevi');
     }
   };
 

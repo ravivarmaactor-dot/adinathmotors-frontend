@@ -117,7 +117,7 @@ export default function About() {
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <img 
-                  src="/interioradinath.png" 
+                  src="https://lh3.googleusercontent.com/d/1CwiOZWENxvp8LLSOvWcq20ZT8WSPLHyY" 
                   alt="Showroom Interior" 
                   className="w-full h-auto"
                   referrerPolicy="no-referrer"

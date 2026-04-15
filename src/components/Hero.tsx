@@ -11,13 +11,12 @@ export default function Hero() {
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
           transition={{ duration: 10, ease: "easeOut" }}
-          src="/bullethome.png"
+          src="https://lh3.googleusercontent.com/d/1vKIeuS7Y9PpP1NMwmw2eGRKJC6-sve2m"
           alt="Premium Motorcycle"
           className="w-full h-full object-cover"
           referrerPolicy="no-referrer"
           onError={(e) => {
-            // Temporarily disabled fallback
-            // e.currentTarget.src = 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=1920';
+            e.currentTarget.src = 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=1920';
             console.error("Hero image failed to load:", e.currentTarget.src);
           }}
         />
