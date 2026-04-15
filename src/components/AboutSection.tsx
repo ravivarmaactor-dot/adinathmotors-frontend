@@ -80,7 +80,7 @@ export default function AboutSection({ isShortened = false }: AboutSectionProps)
           <div className="absolute -inset-4 bg-red-600/10 rounded-3xl -rotate-2"></div>
           <div className="relative rounded-2xl overflow-hidden shadow-2xl z-10">
             <img
-              src="/adinath-exterior.png"
+              src="/adinathextrioer.png"
               alt="Adinath Motors – Multi Brand Two Wheelers and Electric Scooter Showroom"
               className="w-full h-auto"
               referrerPolicy="no-referrer"
