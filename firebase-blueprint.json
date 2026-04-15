@@ -1,0 +1,40 @@
+{
+  "entities": {
+    "Enquiry": {
+      "title": "Enquiry",
+      "description": "A customer enquiry from the contact form.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the customer."
+        },
+        "mobile": {
+          "type": "string",
+          "description": "The mobile number of the customer."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The email address of the customer."
+        },
+        "message": {
+          "type": "string",
+          "description": "The message from the customer."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the enquiry was created."
+        }
+      },
+      "required": ["name", "mobile", "email", "message", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/enquiries/{enquiryId}": {
+      "schema": "Enquiry",
+      "description": "Collection of customer enquiries."
+    }
+  }
+}

@@ -1,0 +1,45 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: enquiries
+    // Document ID: auto-generated
+    // Fields:
+    //   - name: string (required, 2-100 chars)
+    //   - mobile: string (required, 10-15 chars)
+    //   - email: string (required, valid email format)
+    //   - message: string (required, 10-2000 chars)
+    //   - createdAt: timestamp (required)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidEnquiry(data) {
+      return data.keys().hasAll(['name', 'mobile', 'email', 'message', 'createdAt']) &&
+             data.keys().hasOnly(['name', 'mobile', 'email', 'message', 'createdAt']) &&
+             data.name is string && data.name.size() >= 2 && data.name.size() <= 100 &&
+             data.mobile is string && data.mobile.size() >= 10 && data.mobile.size() <= 15 &&
+             data.email is string && isValidEmail(data.email) &&
+             data.message is string && data.message.size() >= 10 && data.message.size() <= 2000 &&
+             data.createdAt is timestamp;
+    }
+
+    match /enquiries/{enquiryId} {
+      // Allow anyone to create an enquiry if it's valid
+      allow create: if isValidEnquiry(request.resource.data);
+      
+      // No one can read, update, or delete enquiries from the client
+      allow read, update, delete: if false;
+    }
+  }
+}
