@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import AnnouncementBar from './components/AnnouncementBar';
 import Footer from './components/Footer';
@@ -13,23 +13,47 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import FloatingActions from './components/FloatingActions';
 
+// Admin imports
+import AdminLayout from './components/admin/AdminLayout';
+import AdminLogin from './pages/admin/Login';
+import AdminDashboard from './pages/admin/Dashboard';
+import AdminEnquiries from './pages/admin/Enquiries';
+import AdminSettings from './pages/admin/Settings';
+
 export default function App() {
   return (
     <Router>
       <ErrorBoundary>
-        <div className="min-h-screen flex flex-col bg-white font-sans text-gray-900">
-          <AnnouncementBar />
-          <Navbar />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
-          </main>
-          <Footer />
-          <FloatingActions />
-        </div>
+        <Routes>
+          {/* Admin Routes */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="enquiries" element={<AdminEnquiries />} />
+            <Route path="settings" element={<AdminSettings />} />
+          </Route>
+
+          {/* Public Website Routes */}
+          <Route
+            path="/*"
+            element={
+              <div className="min-h-screen flex flex-col bg-white font-sans text-gray-900">
+                <AnnouncementBar />
+                <Navbar />
+                <main className="flex-grow">
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
+                  </Routes>
+                </main>
+                <Footer />
+                <FloatingActions />
+              </div>
+            }
+          />
+        </Routes>
       </ErrorBoundary>
     </Router>
   );

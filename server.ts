@@ -39,7 +39,7 @@ async function startServer() {
 
       const mailOptions = {
         from: `"Adinath Motors CRM" <${process.env.SMTP_USER}>`,
-        to: process.env.RECIPIENT_EMAIL || 'motorsadinath@gmail.com',
+        to: process.env.RECIPIENT_EMAIL || 'ravivarmaactor@gmail.com',
         subject: `New Enquiry from ${name}`,
         text: `
           New Enquiry Received:

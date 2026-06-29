@@ -67,6 +67,15 @@ export default function ContactForm() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    if (name === 'mobile') {
+      const numericValue = value.replace(/\D/g, '').slice(0, 10);
+      setFormData((prev) => ({ ...prev, [name]: numericValue }));
+      return;
+    }
+    if (name === 'message') {
+      setFormData((prev) => ({ ...prev, [name]: value.slice(0, 90) }));
+      return;
+    }
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -80,6 +89,11 @@ export default function ContactForm() {
       // Basic validation
       if (!formData.name || !formData.mobile || !formData.email || !formData.message) {
         throw new Error('Please fill in all fields.');
+      }
+
+      // Mobile validation
+      if (formData.mobile.length !== 10) {
+        throw new Error('Mobile number must be exactly 10 digits.');
       }
 
       // Email validation
@@ -170,9 +184,12 @@ export default function ContactForm() {
             id="mobile"
             name="mobile"
             required
+            maxLength={10}
+            pattern="\d{10}"
+            title="Mobile number must be exactly 10 digits"
             value={formData.mobile}
             onChange={handleChange}
-            placeholder="+91 98765 43210"
+            placeholder="9876543210"
             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all"
           />
         </div>
@@ -198,12 +215,19 @@ export default function ContactForm() {
           id="message"
           name="message"
           required
+          maxLength={90}
           rows={4}
           value={formData.message}
           onChange={handleChange}
           placeholder="How can we help you?"
           className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all resize-none"
         />
+        <div className="flex justify-between items-center text-xs">
+          <span className="text-red-500 font-medium">
+            {formData.message.length >= 90 ? 'Maximum character limit reached.' : ''}
+          </span>
+          <span className="text-gray-500 font-medium">{formData.message.length}/90</span>
+        </div>
       </div>
 
       {status === 'error' && (

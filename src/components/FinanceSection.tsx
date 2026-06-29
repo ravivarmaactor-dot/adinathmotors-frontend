@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Landmark, Zap, FileText, Wallet, HandCoins, MessageCircle, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { CONTACT_DETAILS } from '../constants';
+import FinanceEligibilityModal from './FinanceEligibilityModal';
 
 const badges = [
   'Up to 90% Loan Available',
@@ -21,6 +23,8 @@ const partners = [
 ];
 
 export default function FinanceSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <section className="py-24 bg-white overflow-hidden" id="finance">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -102,13 +106,13 @@ export default function FinanceSection() {
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 lg:justify-end">
-              <a 
-                href="/contact" 
+              <button 
+                onClick={() => setIsModalOpen(true)}
                 className="px-8 py-4 bg-white text-red-600 font-bold rounded-xl hover:bg-gray-100 transition-all text-center shadow-lg flex items-center justify-center group"
               >
                 Apply for Finance
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </button>
               <a 
                 href={`https://wa.me/${CONTACT_DETAILS.phones.complaint}`}
                 target="_blank"
@@ -161,6 +165,11 @@ export default function FinanceSection() {
           <p>Electric scooter finance available with low down payment bike loan options.</p>
         </div>
       </div>
+      
+      <FinanceEligibilityModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </section>
   );
 }

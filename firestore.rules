@@ -25,24 +25,37 @@ service cloud.firestore {
     }
 
     function isAuthorized() {
+      let userEmail = request.auth.token.email.lower();
       return isAuthenticated() && 
-             (request.auth.token.email == "motorsadinath@gmail.com" || 
-              request.auth.token.email == "branchmanager_adinathcrm@gmail.com") &&
-             request.auth.token.email_verified == true;
+             (userEmail == "motorsadinath@gmail.com" || 
+              userEmail == "branchmanager_adinathcrm@gmail.com" ||
+              userEmail == "ravivarmaactor@gmail.com" ||
+              userEmail == "admin@example.com" ||
+              userEmail == "admin@adinathmotors.com");
+    }
+
+    function canDelete() {
+      return isAuthenticated() && 
+             request.auth.token.email.lower() != "admin@adinathmotors.com" &&
+             isAuthorized();
     }
 
     function isValidEmail(email) {
-      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+      return email is string && (email == "" || email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"));
     }
 
     function isValidEnquiry(data) {
-      return data.keys().hasAll(['name', 'mobile', 'email', 'message', 'createdAt']) &&
-             data.keys().hasOnly(['name', 'mobile', 'email', 'message', 'createdAt']) &&
+      let allowedKeys = ['name', 'mobile', 'email', 'message', 'createdAt', 'status', 'note', 'subject'];
+      return data.keys().hasAll(['name', 'mobile', 'message', 'createdAt']) &&
+             data.keys().hasOnly(allowedKeys) &&
              data.name is string && data.name.size() >= 2 && data.name.size() <= 100 &&
              data.mobile is string && data.mobile.size() >= 5 && data.mobile.size() <= 20 &&
-             data.email is string && isValidEmail(data.email) &&
+             (!('email' in data) || isValidEmail(data.email)) &&
              data.message is string && data.message.size() >= 1 && data.message.size() <= 5000 &&
-             (data.createdAt == request.time || data.createdAt is timestamp);
+             (data.createdAt == request.time || data.createdAt is timestamp) &&
+             (!('status' in data) || (data.status is string && data.status in ['new', 'pending', 'contacted', 'completed'])) &&
+             (!('note' in data) || (data.note is string && data.note.size() <= 60)) &&
+             (!('subject' in data) || (data.subject is string && data.subject.size() <= 100));
     }
 
     match /enquiries/{enquiryId} {
@@ -50,7 +63,8 @@ service cloud.firestore {
       allow create: if isValidEnquiry(request.resource.data);
       
       // Only Master Admin and Manager can read, update, or delete enquiries
-      allow read, update, delete: if isAuthorized();
+      allow read, update: if isAuthorized();
+      allow delete: if canDelete();
     }
   }
 }
